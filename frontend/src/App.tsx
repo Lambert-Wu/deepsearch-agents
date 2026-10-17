@@ -180,11 +180,8 @@ export default function App() {
     <div className="chat-app-shell min-h-dvh">
       <aside className="chat-sidebar" aria-label="会话信息">
         <div className="sidebar-brand">
-          <span className="brand-mark" aria-hidden />
-          <div className="sidebar-brand-copy">
-            <span className="panel-kicker">DEEPSEARCH</span>
-            <h1>深度研搜</h1>
-          </div>
+          <span className="panel-kicker">DEEPSEARCH</span>
+          <h1>深度研搜</h1>
           <p>对话式多智能体研究台</p>
         </div>
 
