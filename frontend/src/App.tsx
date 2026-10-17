@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Alert, App as AntApp, Button } from "antd";
 import { useEffect, useRef, useState } from "react";
+import type { WheelEvent } from "react";
 import { ChatComposer } from "./components/ChatComposer";
 import { ConversationThread } from "./components/ConversationThread";
 import type { ChatTurn } from "./components/ConversationThread";
@@ -45,7 +46,37 @@ export default function App() {
   const [stagedItems, setStagedItems] = useState<UploadedItem[]>([]);
   const [turns, setTurns] = useState<ChatTurn[]>([]);
   const streamRef = useRef<HTMLElement | null>(null);
+  // 只有用户停留在底部时才自动跟随新内容，避免阅读历史时被强制拉回底部
+  const stickToBottomRef = useRef(true);
   const session = useDeepAgentSession();
+
+  const SCROLL_STICK_THRESHOLD = 24;
+
+  function handleStreamScroll() {
+    const streamNode = streamRef.current;
+    if (!streamNode) {
+      return;
+    }
+    const distanceToBottom =
+      streamNode.scrollHeight - streamNode.scrollTop - streamNode.clientHeight;
+    stickToBottomRef.current = distanceToBottom <= SCROLL_STICK_THRESHOLD;
+  }
+
+  function handleStreamWheel(event: WheelEvent<HTMLElement>) {
+    // 用户一旦向上滚动，立即停止自动跟随，不再等滚动位置变化
+    if (event.deltaY < 0) {
+      stickToBottomRef.current = false;
+    }
+  }
+
+  useEffect(() => {
+    // 事件时间线是独立滚动容器，用户在里面向上翻阅时也要解除主对话区的自动跟随
+    function handleExternalUnpin() {
+      stickToBottomRef.current = false;
+    }
+    window.addEventListener("deepsearch:unpin-autoscroll", handleExternalUnpin);
+    return () => window.removeEventListener("deepsearch:unpin-autoscroll", handleExternalUnpin);
+  }, []);
 
   useEffect(() => {
     setTurns((previous) => {
@@ -68,14 +99,18 @@ export default function App() {
 
   useEffect(() => {
     const streamNode = streamRef.current;
-    if (!streamNode) {
+    if (!streamNode || !stickToBottomRef.current) {
       return;
     }
 
     window.requestAnimationFrame(() => {
+      // 内容渲染后再次确认用户仍在底部，避免异步更新把它拉回去
+      if (!stickToBottomRef.current) {
+        return;
+      }
       streamNode.scrollTo({
         top: streamNode.scrollHeight,
-        behavior: "smooth"
+        behavior: "auto"
       });
     });
   }, [turns]);
@@ -88,6 +123,8 @@ export default function App() {
     }
 
     const nextTurn = createTurn(cleanQuery);
+    // 用户主动发起新任务时，强制跟随到最新一轮对话
+    stickToBottomRef.current = true;
     setTurns((previous) => [...previous, nextTurn]);
     setQuery("");
 
@@ -131,6 +168,7 @@ export default function App() {
 
   function handleNewSession() {
     session.resetSession();
+    stickToBottomRef.current = true;
     setTurns([]);
     setQuery("");
     setStagedItems([]);
@@ -227,7 +265,12 @@ export default function App() {
           />
         ) : null}
 
-        <section className="chat-stream-panel" ref={streamRef}>
+        <section
+          className="chat-stream-panel"
+          onScroll={handleStreamScroll}
+          onWheel={handleStreamWheel}
+          ref={streamRef}
+        >
           <ConversationThread
             onUseExample={setQuery}
             turns={turns}

@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import { useEffect, useRef, useState } from "react";
+import type { WheelEvent } from "react";
 import { getDownloadUrl } from "../lib/api";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import type { MonitorMessage, OutputFile } from "../types";
@@ -177,14 +178,36 @@ function FileIcon({ name }: { name: string }) {
 
 function ThinkingTimeline({ events }: { events: MonitorMessage[] }) {
   const timelineRef = useRef<HTMLOListElement | null>(null);
+  // 与主对话区一致：用户向上翻阅执行事件时不再自动滚动
+  const stickToBottomRef = useRef(true);
 
-  useEffect(() => {
+  function handleTimelineScroll() {
     const timelineNode = timelineRef.current;
     if (!timelineNode) {
       return;
     }
+    const distanceToBottom =
+      timelineNode.scrollHeight - timelineNode.scrollTop - timelineNode.clientHeight;
+    stickToBottomRef.current = distanceToBottom <= 16;
+  }
+
+  function handleTimelineWheel(event: WheelEvent<HTMLOListElement>) {
+    if (event.deltaY < 0) {
+      stickToBottomRef.current = false;
+      window.dispatchEvent(new CustomEvent("deepsearch:unpin-autoscroll"));
+    }
+  }
+
+  useEffect(() => {
+    const timelineNode = timelineRef.current;
+    if (!timelineNode || !stickToBottomRef.current) {
+      return;
+    }
 
     window.requestAnimationFrame(() => {
+      if (!stickToBottomRef.current) {
+        return;
+      }
       timelineNode.scrollTop = timelineNode.scrollHeight;
     });
   }, [events.length]);
@@ -199,7 +222,12 @@ function ThinkingTimeline({ events }: { events: MonitorMessage[] }) {
   }
 
   return (
-    <ol className="thinking-timeline" ref={timelineRef}>
+    <ol
+      className="thinking-timeline"
+      onScroll={handleTimelineScroll}
+      onWheel={handleTimelineWheel}
+      ref={timelineRef}
+    >
       {events.map((event, index) => (
         <li
           className={`thinking-event thinking-event--${event.event}`}
