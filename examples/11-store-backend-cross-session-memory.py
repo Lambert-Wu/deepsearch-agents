@@ -17,7 +17,7 @@ from langgraph.store.memory import InMemoryStore
 load_dotenv(find_dotenv())
 
 
-# InMemoryStore 是教学用内存 Store，进程重启后数据会丢失
+# InMemoryStore 是演示用内存 Store，进程重启后数据会丢失
 # 生产环境可以替换成 RedisStore、数据库 Store 或其他持久化 Store
 store = InMemoryStore()
 

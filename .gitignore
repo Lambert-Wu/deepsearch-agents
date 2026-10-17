@@ -24,6 +24,9 @@ frontend/.vite/
 venv/
 env/
 .env
+.env.*
+!.env.example
+agent_workspace/
 __pycache__/
 *.py[cod]
 *$py.class

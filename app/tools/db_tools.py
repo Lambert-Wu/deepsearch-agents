@@ -40,7 +40,7 @@ def get_db_config():
     # 去掉未配置的可选项，避免把 None 传给 mysql.connector 造成连接参数异常
     config = {k: v for k, v in config.items() if v is not None}
 
-    # user/password/database 是本教程工具能正常查询业务库的最小必要配置
+    # user/password/database 是本工具能正常查询业务库的最小必要配置
     required_keys = ["user", "password", "database"]
     missing_keys = [k for k in required_keys if k not in config]
     if missing_keys:
@@ -126,7 +126,7 @@ def get_table_data(table_name) -> str:
     try:
         with connect(**config) as conn:
             with conn.cursor() as cursor:
-                # 教程代码直接拼接表名，重点演示 Agent 查询链路；生产环境应改为白名单校验
+                # 当前实现直接拼接表名，重点演示 Agent 查询链路；生产环境应改为白名单校验
                 sql = f"SELECT * FROM {table_name} LIMIT 100"
                 cursor.execute(sql)
 
@@ -177,7 +177,7 @@ def execute_sql_query(query) -> str:
                 1,张三,18\n
                 1,张三,18\n
     """
-    # 埋点：记录模型最终生成的 SQL，便于教学时观察是否真的落到了正确表字段上
+    # 埋点：记录模型最终生成的 SQL，便于调试时观察是否真的落到了正确表字段上
     monitor.report_tool(
         tool_name="数据库表数据查询工具：execute_sql_query", args={"query": query}
     )

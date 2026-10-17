@@ -61,7 +61,7 @@ output_dir.mkdir(exist_ok=True)
 updated_dir = project_root / "updated"
 updated_dir.mkdir(exist_ok=True)
 
-# 教学项目通常前后端分别本地启动，这里放开跨域以便 Vite 页面直接调用 API
+# 开发阶段前后端通常分别本地启动，这里放开跨域以便 Vite 页面直接调用 API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

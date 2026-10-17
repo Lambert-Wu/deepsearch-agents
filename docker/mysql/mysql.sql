@@ -2,8 +2,8 @@
 -- 包含：药品信息、库存管理、销售记录
 -- 适用于 DeepAgents 结构化数据检索
 --
--- 教学场景：
--- 本脚本服务于「数据库查询子智能体与 MySQL 工具」章节，用来准备一个
+-- 演示场景：
+-- 本脚本用来准备一个
 -- 可被 list_sql_tables、get_table_data、execute_sql_query 查询的业务数据库。
 -- 数据库查询助手会先查看真实表名，再读取表结构和样例数据，最后执行 SQL。
 --
@@ -19,7 +19,7 @@
 --
 -- 数据边界：
 -- 药品名称、治疗领域和剂型参考常见业务场景；批准文号、库存、销售额、
--- 客户名称和销售区域均为教学模拟数据，不用于真实药品合规或经营判断。
+-- 客户名称和销售区域均为模拟数据，不用于真实药品合规或经营判断。
 --
 -- 字符集说明：
 -- 本文件使用 UTF-8 编码保存。导入前显式执行 SET NAMES utf8mb4，
@@ -96,7 +96,7 @@ CREATE TABLE sales_records (
 -- --- 插入模拟数据 (Mock Data) ---
 
 -- 1. 插入 50 种药品信息 (全中文，覆盖抗感染、消化、慢病、心血管、呼吸等常见业务场景)
--- 教学用途：帮助模型根据药品名称、剂型、治疗领域等字段理解药品基础信息。
+-- 演示用途：帮助模型根据药品名称、剂型、治疗领域等字段理解药品基础信息。
 -- 典型问题：有哪些心血管药？某个药品的商品名是什么？哪些药属于糖尿病领域？
 INSERT INTO drugs (generic_name, brand_name, approval_number, specifications, dosage_form, manufacturer, therapeutic_area, description)
 VALUES
@@ -154,7 +154,7 @@ VALUES
 -- 2. 插入库存数据
 -- 规则：每种药 3 个批次 (2501批, 2506批, 2511批)
 -- 时间：全部平移至 2025 年生产，有效期至 2027 年
--- 教学用途：帮助模型练习按药品、仓库、批次、有效期聚合或筛选库存。
+-- 演示用途：帮助模型练习按药品、仓库、批次、有效期聚合或筛选库存。
 -- 典型问题：布洛芬总库存是多少？哪些药品在 2027 年上半年过期？某个仓库有哪些药？
 
 INSERT INTO inventory (drug_id, batch_number, quantity_on_hand, warehouse_location, production_date, expiry_date)
@@ -411,7 +411,7 @@ VALUES
 
 -- 3. 为这 50 种药品初始化销售记录
 -- 规则：每种药 2 条销售记录，覆盖华北、华东、华南、西南、西北、东北、华中等区域。
--- 教学用途：帮助模型练习按药品、区域、客户、销售日期进行统计分析。
+-- 演示用途：帮助模型练习按药品、区域、客户、销售日期进行统计分析。
 -- 典型问题：哪个区域销售额最高？某个药品全年销售额是多少？哪些客户采购量最大？
 
 INSERT INTO sales_records (drug_id, sale_date, quantity_sold, unit_price, total_amount, customer_name, region, sales_rep)

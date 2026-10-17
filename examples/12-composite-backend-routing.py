@@ -20,7 +20,7 @@ load_dotenv(find_dotenv())
 
 
 # Store 用来保存 /store/ 路径下的重要记忆
-# 这里使用 InMemoryStore 便于教学观察，生产环境可以替换成持久化 Store
+# 这里使用 InMemoryStore 便于演示观察，生产环境可以替换成持久化 Store
 store = InMemoryStore()
 
 
