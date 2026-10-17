@@ -6,9 +6,9 @@
 
 <div align='center'>
 
-**📢 说明**：本项目已于 2026 年 5 月 17 日完成整体开发，覆盖从多智能体调度到前端联调的完整闭环。
+「深度研搜」是一个围绕深度研究场景构建的对话式多智能体研究系统。项目用 DeepAgents 组织主智能体和专家子智能体，让系统可以根据任务需要查公开网络、查结构化数据库、查 RAGFlow 私有知识库、读取用户上传附件，并把最终结果整理成回答、Markdown 或 PDF，整体覆盖多智能体规划、工具接入、上下文隔离、接口交付到前端联调的完整工程链路。
 
-「深度研搜」是一个围绕深度研究场景构建的对话式多智能体研究系统。它不是只调用一次大模型接口，也不是套一个搜索 API 做问答演示。项目用 DeepAgents 组织主智能体和专家子智能体，让系统可以根据任务需要查公开网络、查结构化数据库、查 RAGFlow 私有知识库、读取用户上传附件，并把最终结果整理成回答、Markdown 或 PDF，整体覆盖多智能体规划、工具接入、上下文隔离、接口交付到前端联调的完整工程链路。
+</div>
 
 ![深度研搜前端首页：任务示例、助手状态和对话式多智能体研究台](docs/images/deepsearch-agent-home.jpg)
 
@@ -102,20 +102,20 @@
 
 ## 🛠️ 项目技术栈
 
-| 模块           | 技术                                             | 作用                                                                         |
-| -------------- | ------------------------------------------------ | ---------------------------------------------------------------------------- |
-| 智能体框架     | `DeepAgents`                                     | 创建主智能体和子智能体，承接长任务、多工具、多助手调度                       |
-| 图与检查点     | `LangGraph`                                      | 提供底层运行时和`InMemorySaver` 会话检查点                                   |
-| 模型与工具抽象 | `LangChain` / `langchain-core`                   | 封装 OpenAI 兼容模型、工具声明和 Agent 调用结构                              |
-| 大模型接入     | OpenAI 兼容接口                                  | 通过`.env` 中的 `OPENAI_BASE_URL`、`OPENAI_API_KEY`、`LLM_QWEN_MAX` 接入模型 |
-| 网络搜索       | `Tavily`                                         | 为网络搜索助手提供公开资料检索                                               |
-| 结构化数据     | `MySQL` / `mysql-connector-python`               | 为数据库助手提供药品、库存、销售等模拟业务数据                               |
-| 私有知识库     | `RAGFlow` / `ragflow-sdk`                        | 为知识库助手提供内部文档问答能力                                             |
-| 文件处理       | `pypdf` / `python-docx` / `pandas` / `ReportLab` | 读取上传附件，生成 Markdown，转换 PDF                                        |
-| 后端接口       | `FastAPI` / `Uvicorn`                            | 提供任务、取消、上传、文件列表、下载和 WebSocket 接口                        |
-| 实时通信       | `WebSocket`                                      | 推送工具调用、助手调用、最终结果和错误事件                                   |
-| 前端           | `React` / `Vite` / `Ant Design` / `Tailwind CSS` | 提供对话式研搜界面、事件流、附件上传和文件下载                               |
-| 依赖管理       | `uv` / `pnpm`                                    | 管理 Python 后端和前端依赖                                                   |
+| 模块           | 技术                                             | 作用                                                                          |
+| -------------- | ------------------------------------------------ | ----------------------------------------------------------------------------- |
+| 智能体框架     | `DeepAgents`                                     | 创建主智能体和子智能体，承接长任务、多工具、多助手调度                        |
+| 图与检查点     | `LangGraph`                                      | 提供底层运行时和 `InMemorySaver` 会话检查点                                   |
+| 模型与工具抽象 | `LangChain` / `langchain-core`                   | 封装 OpenAI 兼容模型、工具声明和 Agent 调用结构                               |
+| 大模型接入     | OpenAI 兼容接口                                  | 通过 `.env` 中的 `OPENAI_BASE_URL`、`OPENAI_API_KEY`、`LLM_QWEN_MAX` 接入模型 |
+| 网络搜索       | `Tavily`                                         | 为网络搜索助手提供公开资料检索                                                |
+| 结构化数据     | `MySQL` / `mysql-connector-python`               | 为数据库助手提供药品、库存、销售等模拟业务数据                                |
+| 私有知识库     | `RAGFlow` / `ragflow-sdk`                        | 为知识库助手提供内部文档问答能力                                              |
+| 文件处理       | `pypdf` / `python-docx` / `pandas` / `ReportLab` | 读取上传附件，生成 Markdown，转换 PDF                                         |
+| 后端接口       | `FastAPI` / `Uvicorn`                            | 提供任务、取消、上传、文件列表、下载和 WebSocket 接口                         |
+| 实时通信       | `WebSocket`                                      | 推送工具调用、助手调用、最终结果和错误事件                                    |
+| 前端           | `React` / `Vite` / `Ant Design` / `Tailwind CSS` | 提供对话式研搜界面、事件流、附件上传和文件下载                                |
+| 依赖管理       | `uv` / `pnpm`                                    | 管理 Python 后端和前端依赖                                                    |
 
 ## 📁 项目结构
 
@@ -144,7 +144,6 @@ deepsearch-agents/
 ├── docs/knowledge_base/            # RAGFlow 知识库示例 PDF
 ├── examples/                       # DeepAgents 使用示例脚本
 ├── frontend/                       # React + Vite 前端项目
-├── tests/                          # 测试目录
 ├── .env.example                    # 环境变量示例
 ├── pyproject.toml                  # Python 项目依赖声明
 ├── requirements.txt                # 依赖清单
@@ -208,7 +207,7 @@ MYSQL_COLLATION=utf8mb4_unicode_ci
 MYSQL_SQL_MODE=TRADITIONAL
 ```
 
-### 5. 启动 MySQL&#x20;
+### 5. 启动 MySQL
 
 本仓库的 `docker/mysql/mysql.sql` 会在 MySQL 容器首次创建数据目录时自动导入药品、库存和销售记录模拟数据。
 
