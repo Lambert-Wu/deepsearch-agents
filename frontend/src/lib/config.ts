@@ -1,4 +1,6 @@
-const DEFAULT_API_BASE_URL = "http://localhost:8000";
+// 默认走同源请求：开发环境由 Vite proxy 转发，生产环境由反向代理转发，
+// 避免把 localhost 固化进前端产物导致远程访问时请求打到用户本机。
+const DEFAULT_API_BASE_URL = typeof window === "undefined" ? "http://localhost:8000" : window.location.origin;
 
 function stripTrailingSlash(value: string): string {
   return value.replace(/\/+$/, "");
