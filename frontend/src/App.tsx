@@ -181,8 +181,10 @@ export default function App() {
       <aside className="chat-sidebar" aria-label="会话信息">
         <div className="sidebar-brand">
           <span className="brand-mark" aria-hidden />
-          <span className="panel-kicker">DEEPSEARCH</span>
-          <h1>深度研搜</h1>
+          <div className="sidebar-brand-copy">
+            <span className="panel-kicker">DEEPSEARCH</span>
+            <h1>深度研搜</h1>
+          </div>
           <p>对话式多智能体研究台</p>
         </div>
 
