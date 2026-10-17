@@ -9,30 +9,38 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ConfigProvider
       theme={{
-        algorithm: theme.darkAlgorithm,
+        algorithm: theme.defaultAlgorithm,
         token: {
-          colorPrimary: "#20d6ff",
-          colorSuccess: "#5dff9f",
-          colorWarning: "#ffc857",
-          colorError: "#ff5c7a",
-          colorInfo: "#7c8cff",
-          colorBgBase: "#05070b",
-          colorBgContainer: "rgba(12, 18, 28, 0.86)",
-          colorBorder: "rgba(113, 247, 255, 0.18)",
-          borderRadius: 8,
+          // 主操作用近黑色，亮底上最克制、最显质感
+          colorPrimary: "#1f2329",
+          colorSuccess: "#16a34a",
+          colorWarning: "#d97706",
+          colorError: "#dc2626",
+          colorInfo: "#4f46e5",
+          colorBgBase: "#f7f8fa",
+          colorBgContainer: "#ffffff",
+          colorBgElevated: "#ffffff",
+          colorText: "#1a1c20",
+          colorTextSecondary: "#6a707c",
+          colorBorder: "#e8eaef",
+          colorBorderSecondary: "#f3f4f6",
+          borderRadius: 10,
           fontFamily:
-            "'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif",
+            "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif",
           fontFamilyCode:
-            "'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace"
+            "'JetBrains Mono', 'SFMono-Regular', 'Cascadia Code', Consolas, 'Liberation Mono', monospace",
+          boxShadow: "0 1px 3px rgba(16, 24, 40, 0.05), 0 8px 24px rgba(16, 24, 40, 0.06)",
+          boxShadowSecondary: "0 1px 2px rgba(16, 24, 40, 0.05)"
         },
         components: {
           Button: {
-            controlHeightLG: 46,
-            primaryShadow: "0 0 24px rgba(32, 214, 255, 0.26)"
+            controlHeightLG: 42,
+            primaryShadow: "0 1px 2px rgba(16, 24, 40, 0.08)",
+            defaultShadow: "0 1px 2px rgba(16, 24, 40, 0.05)"
           },
           Input: {
-            activeBorderColor: "#20d6ff",
-            hoverBorderColor: "#5dff9f"
+            activeBorderColor: "#1f2329",
+            hoverBorderColor: "#d8dbe3"
           }
         }
       }}
