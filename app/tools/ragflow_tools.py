@@ -7,6 +7,7 @@ create_ask_delete 用于创建临时会话、发起一次问题查询，并在�
 """
 
 import json
+import re
 
 from langchain_core.tools import tool
 from ragflow_sdk import RAGFlow
@@ -110,7 +111,12 @@ def create_ask_delete(chat_name, question) -> str:
 
         # 临时会话只用于本次工具调用，查询结束后删除，避免 RAGFlow 页面堆积无用会话
         use_chat.delete_sessions(ids=[session.id])
-        return result
+        # 推理模型会先输出思维链，再以 </think> 结束并给出正式答案；只保留最后一个结束标记之后的内容
+        if "</think>" in result:
+            result = result.rsplit("</think>", 1)[1]
+        else:
+            result = re.sub(r"<think>.*?(</think>|$)", "", result, flags=re.S)
+        return result.strip()
     except Exception as e:
         return f"提问失败，错误原因：{str(e)}"
 
