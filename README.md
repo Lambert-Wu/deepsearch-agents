@@ -98,6 +98,8 @@
 
 ![深度研搜网络搜索任务执行页：WebSocket 事件流、工具调用和最终回答](docs/images/deepsearch-network-search-result.jpg)
 
+![深度研搜数据库查询任务执行页：MySQL 查询链路和生成的 Markdown 报告](docs/images/deepsearch-database-report-result.jpg)
+
 ## 🛠️ 项目技术栈
 
 | 模块           | 技术                                             | 作用                                                                         |
